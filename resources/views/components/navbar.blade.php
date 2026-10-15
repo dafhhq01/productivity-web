@@ -4,6 +4,7 @@
         <div class="flex space-x-6 items-center justify-center">
             @auth
                 <a href="{{ route('dashboard') }}">Dashboard</a>
+                <a href="{{ route('tasks.index') }}">Tugas</a>
                 <form action="/logout" method="POST">
                     @csrf
                     <x-button type="submit" variant="solid">Logout</x-button>
