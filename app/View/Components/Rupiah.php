@@ -12,7 +12,7 @@ class Rupiah extends Component
      * Create a new component instance.
      */
 
-    public int $nominal;
+    public float $nominal;
 
     public function __construct(int $nominal)
     {

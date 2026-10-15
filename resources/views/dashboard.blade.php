@@ -10,8 +10,14 @@
             </x-card>
             
             <x-card>
+                <h2 class="font-semibold text-lg mb-2">Keuangan</h2>
+                <p class="text-sm text-neutral-600 mb-3">Catat pemasukan dan pengeluaran</p>
+                <x-button :href="route('transactions.index')">Lihat Keuangan</x-button>
+            </x-card>
+            
+            <x-card>
                 <h2 class="font-semibold text-lg mb-2">Coming Soon</h2>
-                <p class="text-sm text-neutral-600">Fitur keuangan, budgeting, dan investasi akan segera hadir.</p>
+                <p class="text-sm text-neutral-600">Fitur budgeting dan investasi akan segera hadir.</p>
             </x-card>
         </div>
     </section>
