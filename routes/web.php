@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TransactionController;
@@ -22,9 +23,7 @@ Route::middleware('guest')->group(function () {
 
 // Protected routes (auth required)
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::resource('tasks', TaskController::class)->except(['show']);
     Route::resource('transactions', TransactionController::class)->except(['show']);

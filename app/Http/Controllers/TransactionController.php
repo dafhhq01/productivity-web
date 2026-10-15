@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
-use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
@@ -46,22 +45,24 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil ditambahkan');
     }
 
-    public function edit(Transaction $transaction)
+    public function edit($id)
     {
-        auth()->user()->transactions()->findOrFail($transaction->id);
+        $transaction = auth()->user()->transactions()->findOrFail($id);
         return view('transactions.edit', compact('transaction'));
     }
 
-    public function update(TransactionRequest $request, Transaction $transaction)
+    public function update(TransactionRequest $request, $id)
     {
-        auth()->user()->transactions()->findOrFail($transaction->id)->update($request->validated());
+        $transaction = auth()->user()->transactions()->findOrFail($id);
+        $transaction->update($request->validated());
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diperbarui');
     }
 
-    public function destroy(Transaction $transaction)
+    public function destroy($id)
     {
         try {
-            auth()->user()->transactions()->findOrFail($transaction->id)->delete();
+            $transaction = auth()->user()->transactions()->findOrFail($id);
+            $transaction->delete();
             return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dihapus');
         } catch (\Throwable $e) {
             return back()->with('error', 'Gagal menghapus transaksi');

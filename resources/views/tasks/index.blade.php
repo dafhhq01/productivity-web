@@ -32,11 +32,11 @@
                                         @if($task->urgent && $task->important)
                                             Penting & Mendesak
                                         @elseif($task->important)
-                                            Penting
+                                            Penting & Tidak Mendesak
                                         @elseif($task->urgent)
-                                            Mendesak
+                                            Mendesak & Tidak Penting
                                         @else
-                                            Lainnya
+                                            Tidak Penting & Tidak Mendesak
                                         @endif
                                     </span>
 

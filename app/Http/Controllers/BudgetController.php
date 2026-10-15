@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BudgetRequest;
-use App\Models\Budget;
 use Illuminate\Support\Facades\DB;
 
 class BudgetController extends Controller
@@ -43,16 +42,17 @@ class BudgetController extends Controller
         }
     }
 
-    public function edit(Budget $budget)
+    public function edit($id)
     {
-        auth()->user()->budgets()->findOrFail($budget->id);
+        $budget = auth()->user()->budgets()->findOrFail($id);
         return view('budgets.edit', compact('budget'));
     }
 
-    public function update(BudgetRequest $request, Budget $budget)
+    public function update(BudgetRequest $request, $id)
     {
         try {
-            auth()->user()->budgets()->findOrFail($budget->id)->update($request->validated());
+            $budget = auth()->user()->budgets()->findOrFail($id);
+            $budget->update($request->validated());
             return redirect()->route('budgets.index')->with('success', 'Budget berhasil diperbarui');
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() === '23000') {
@@ -62,10 +62,11 @@ class BudgetController extends Controller
         }
     }
 
-    public function destroy(Budget $budget)
+    public function destroy($id)
     {
         try {
-            auth()->user()->budgets()->findOrFail($budget->id)->delete();
+            $budget = auth()->user()->budgets()->findOrFail($id);
+            $budget->delete();
             return redirect()->route('budgets.index')->with('success', 'Budget berhasil dihapus');
         } catch (\Throwable $e) {
             return back()->with('error', 'Gagal menghapus budget');
