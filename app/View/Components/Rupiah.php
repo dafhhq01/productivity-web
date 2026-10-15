@@ -14,7 +14,7 @@ class Rupiah extends Component
 
     public float $nominal;
 
-    public function __construct(int $nominal)
+    public function __construct(float $nominal)
     {
         $this->nominal = $nominal;
     }

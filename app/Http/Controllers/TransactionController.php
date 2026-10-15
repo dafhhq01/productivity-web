@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TransactionRequest;
 use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -43,17 +42,8 @@ class TransactionController extends Controller
 
     public function store(TransactionRequest $request)
     {
-        try {
-            DB::beginTransaction();
-
-            auth()->user()->transactions()->create($request->validated());
-
-            DB::commit();
-            return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil ditambahkan');
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            return back()->with('error', 'Gagal menambahkan transaksi');
-        }
+        auth()->user()->transactions()->create($request->validated());
+        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil ditambahkan');
     }
 
     public function edit(Transaction $transaction)
@@ -64,17 +54,8 @@ class TransactionController extends Controller
 
     public function update(TransactionRequest $request, Transaction $transaction)
     {
-        try {
-            DB::beginTransaction();
-
-            auth()->user()->transactions()->findOrFail($transaction->id)->update($request->validated());
-
-            DB::commit();
-            return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diperbarui');
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            return back()->with('error', 'Gagal memperbarui transaksi');
-        }
+        auth()->user()->transactions()->findOrFail($transaction->id)->update($request->validated());
+        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diperbarui');
     }
 
     public function destroy(Transaction $transaction)
