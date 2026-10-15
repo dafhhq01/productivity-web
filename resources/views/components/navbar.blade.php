@@ -7,6 +7,7 @@
                 <a href="{{ route('tasks.index') }}">Tugas</a>
                 <a href="{{ route('transactions.index') }}">Keuangan</a>
                 <a href="{{ route('budgets.index') }}">Budgeting</a>
+                <a href="{{ route('investments.index') }}">Investasi</a>
                 <form action="/logout" method="POST">
                     @csrf
                     <x-button type="submit" variant="solid">Logout</x-button>

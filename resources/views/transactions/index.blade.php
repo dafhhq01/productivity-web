@@ -10,19 +10,19 @@
             <x-card>
                 <h3 class="text-sm text-neutral-600 mb-2">Total Pemasukan</h3>
                 <div class="text-2xl font-bold">
-                    <x-rupiah :nominal="(int)$totalIncome" />
+                    <x-rupiah :nominal="$totalIncome" />
                 </div>
             </x-card>
             <x-card>
                 <h3 class="text-sm text-neutral-600 mb-2">Total Pengeluaran</h3>
                 <div class="text-2xl font-bold">
-                    <x-rupiah :nominal="(int)$totalExpense" />
+                    <x-rupiah :nominal="$totalExpense" />
                 </div>
             </x-card>
             <x-card>
                 <h3 class="text-sm text-neutral-600 mb-2">Selisih</h3>
                 <div class="text-2xl font-bold {{ $selisih >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                    <x-rupiah :nominal="(int)$selisih" />
+                    <x-rupiah :nominal="$selisih" />
                 </div>
             </x-card>
         </div>
@@ -65,9 +65,9 @@
                                     <span class="text-sm text-neutral-600">{{ $tr->category }}</span>
                                 </div>
                                 <p class="text-lg font-semibold mb-1">
-                                    <x-rupiah :nominal="(int)$tr->amount" />
+                                    <x-rupiah :nominal="$tr->amount" />
                                 </p>
-                                <p class="text-sm text-neutral-600 mb-1">{{ $tr->transaction_date->format('d M Y') }}</p>
+                                <p class="text-sm text-neutral-600 mb-1">{{ \Carbon\Carbon::parse($tr->transaction_date)->format('d M Y') }}</p>
                                 @if($tr->note)
                                     <p class="text-sm text-neutral-500">{{ $tr->note }}</p>
                                 @endif
