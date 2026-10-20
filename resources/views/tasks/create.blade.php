@@ -1,86 +1,89 @@
 <x-layout title="Tambah Tugas">
-    <section class="container mx-auto max-w-4xl px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6">Tambah Tugas Baru</h1>
+    <div class="flex-1 overflow-y-auto no-scrollbar px-5 pt-3 pb-6">
+        <div class="flex items-center justify-between mb-5">
+            <a href="{{ route('tasks.index') }}" class="w-10 h-10 rounded-full bg-white border-flat flex items-center justify-center text-brand-ink hover:bg-neutral-100 active:scale-95 transition-all">
+                <svg class="w-5 h-5 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+            </a>
+            <h1 class="text-xl font-extrabold tracking-tight text-brand-ink font-outfit">Tambah Tugas Baru</h1>
+            <div class="w-10 h-10"></div>
+        </div>
 
-        <x-card>
-            <form action="{{ route('tasks.store') }}" method="POST">
-                @csrf
+        <form action="{{ route('tasks.store') }}" method="POST" class="space-y-4">
+            @csrf
 
-                <x-input label="Judul Tugas" name="title" :value="old('title')" />
+            <x-input label="Judul Tugas" name="title" :value="old('title')" placeholder="Nama tugas" />
 
-                <div class="mb-3">
-                    <label for="description" class="block text-sm mb-1">Deskripsi</label>
-                    <textarea 
-                        name="description" 
-                        id="description" 
-                        rows="3"
-                        class="border rounded-md px-2 py-1.5 w-full text-sm {{ $errors->has('description') ? 'border-red-400' : 'border-neutral-300' }}"
-                    >{{ old('description') }}</textarea>
-                    @error('description')
-                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                    @enderror
+            <div class="mb-4">
+                <label for="description" class="block text-xs font-bold text-brand-ink mb-1.5 ml-1 font-outfit">Deskripsi</label>
+                <textarea 
+                    name="description" 
+                    id="description" 
+                    rows="3"
+                    placeholder="Deskripsi tugas (opsional)"
+                    class="w-full bg-white border-flat rounded-3xl px-4 py-3 text-sm font-medium placeholder-neutral-400 focus:border-brand-indigo focus:outline-none {{ $errors->has('description') ? 'border-red-400' : '' }}"
+                >{{ old('description') }}</textarea>
+                @error('description')
+                    <p class="text-xs text-red-500 mt-1.5 ml-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <x-input label="Deadline" name="deadline" type="date" :value="old('deadline')" />
+
+            <div class="mb-4 flex gap-4">
+                <label class="flex items-center space-x-2.5 cursor-pointer bg-white border-flat rounded-full px-4 py-2.5 flex-1">
+                    <input type="hidden" name="urgent" value="0">
+                    <input 
+                        type="checkbox" 
+                        name="urgent" 
+                        id="urgent" 
+                        value="1"
+                        {{ old('urgent') ? 'checked' : '' }}
+                        class="w-5 h-5 rounded-lg border-2 border-brand-ink text-brand-coral focus:ring-0 accent-brand-coral"
+                    >
+                    <span class="text-sm font-bold text-brand-ink">Mendesak</span>
+                </label>
+
+                <label class="flex items-center space-x-2.5 cursor-pointer bg-white border-flat rounded-full px-4 py-2.5 flex-1">
+                    <input type="hidden" name="important" value="0">
+                    <input 
+                        type="checkbox" 
+                        name="important" 
+                        id="important" 
+                        value="1"
+                        {{ old('important') ? 'checked' : '' }}
+                        class="w-5 h-5 rounded-lg border-2 border-brand-ink text-brand-yellow focus:ring-0 accent-brand-yellow"
+                    >
+                    <span class="text-sm font-bold text-brand-ink">Penting</span>
+                </label>
+            </div>
+
+            <x-input label="Harada Goal (opsional)" name="harada_goal" :value="old('harada_goal')" placeholder="Tujuan Harada" />
+
+            <div class="border-t-2 border-dashed border-neutral-200 my-6"></div>
+
+            <div class="mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <label class="text-sm font-bold text-brand-ink font-outfit">Subtask</label>
+                    <button type="button" id="btnAddSubtask" class="text-xs font-bold text-brand-indigo hover:underline">+ Tambah Subtask</button>
                 </div>
 
-                <x-input label="Deadline" name="deadline" type="date" :value="old('deadline')" />
-
-                <div class="mb-3 flex gap-6">
-                    <div class="flex items-center">
-                        <input type="hidden" name="urgent" value="0">
-                        <input 
-                            type="checkbox" 
-                            name="urgent" 
-                            id="urgent" 
-                            value="1"
-                            {{ old('urgent') ? 'checked' : '' }}
-                            class="mr-2"
-                        >
-                        <label for="urgent" class="text-sm">Mendesak</label>
-                    </div>
-
-                    <div class="flex items-center">
-                        <input type="hidden" name="important" value="0">
-                        <input 
-                            type="checkbox" 
-                            name="important" 
-                            id="important" 
-                            value="1"
-                            {{ old('important') ? 'checked' : '' }}
-                            class="mr-2"
-                        >
-                        <label for="important" class="text-sm">Penting</label>
-                    </div>
+                <div id="subtasksContainer" class="space-y-2">
+                    <input 
+                        type="text" 
+                        name="subtasks[0][title]" 
+                        placeholder="Nama subtask"
+                        value="{{ old('subtasks.0.title') }}"
+                        class="w-full h-12 bg-white border-flat rounded-3xl px-4 text-sm font-medium placeholder-neutral-400 focus:border-brand-indigo focus:outline-none"
+                    >
                 </div>
+            </div>
 
-                <x-input label="Harada Goal (opsional)" name="harada_goal" :value="old('harada_goal')" />
-
-                <hr class="my-6">
-
-                <div class="mb-4">
-                    <div class="flex justify-between items-center mb-3">
-                        <label class="text-sm font-semibold">Subtask</label>
-                        <x-button type="button" id="btnAddSubtask" variant="outline">+ Tambah Subtask</x-button>
-                    </div>
-
-                    <div id="subtasksContainer">
-                        <div class="mb-2">
-                            <input 
-                                type="text" 
-                                name="subtasks[0][title]" 
-                                placeholder="Nama subtask"
-                                value="{{ old('subtasks.0.title') }}"
-                                class="border border-neutral-300 rounded-md px-2 py-1.5 w-full text-sm"
-                            >
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex gap-3">
-                    <x-button type="submit" variant="solid">Simpan Tugas</x-button>
-                    <x-button :href="route('tasks.index')" variant="outline">Batal</x-button>
-                </div>
-            </form>
-        </x-card>
-    </section>
+            <div class="flex gap-3 pt-4">
+                <button type="submit" class="flex-1 h-12 rounded-full bg-brand-indigo text-white font-bold border-flat shadow-flat hover:bg-opacity-90 active:translate-y-0.5 active:shadow-none transition-all">Simpan Tugas</button>
+                <a href="{{ route('tasks.index') }}" class="flex-1 h-12 rounded-full bg-white text-brand-ink font-bold border-flat hover:bg-neutral-50 active:translate-y-0.5 transition-all flex items-center justify-center">Batal</a>
+            </div>
+        </form>
+    </div>
 
     <script>
         let subtaskIndex = 1;
@@ -91,14 +94,12 @@
             e.preventDefault();
             
             const htmlRow = `
-                <div class="mb-2">
-                    <input 
-                        type="text" 
-                        name="subtasks[${subtaskIndex}][title]" 
-                        placeholder="Nama subtask"
-                        class="border border-neutral-300 rounded-md px-2 py-1.5 w-full text-sm"
-                    >
-                </div>
+                <input 
+                    type="text" 
+                    name="subtasks[${subtaskIndex}][title]" 
+                    placeholder="Nama subtask"
+                    class="w-full h-12 bg-white border-flat rounded-3xl px-4 text-sm font-medium placeholder-neutral-400 focus:border-brand-indigo focus:outline-none"
+                >
             `;
 
             container.insertAdjacentHTML('beforeend', htmlRow);

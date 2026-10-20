@@ -1,11 +1,38 @@
 @import 'tailwindcss';
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-outfit: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    
+    --color-brand-indigo: #5155F5;
+    --color-brand-lime: #A7F059;
+    --color-brand-yellow: #FFD35B;
+    --color-brand-pink: #FF8DB4;
+    --color-brand-coral: #FF6B6B;
+    --color-brand-blue: #91B3FA;
+    --color-brand-ink: #121212;
+    --color-brand-surface: #FCF9F8;
+    
+    --shadow-flat: 3px 3px 0px #121212;
+    --shadow-flat-sm: 2px 2px 0px #121212;
+}
+
+@layer utilities {
+    .border-flat {
+        border: 2px solid #121212;
+    }
+    
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }

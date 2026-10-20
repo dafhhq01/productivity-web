@@ -1,12 +1,6 @@
-{{-- Penjelasan old() dan ?? operator --}}
-{{-- old('field', default) mengambil nilai input dari session jika validasi gagal, fallback ke default
-     ?? adalah operator null coalescing PHP: nilai_kiri ?? nilai_kanan (jika nilai_kiri null, pakai nilai_kanan)
-     Contoh di form: old('category', $model->category ?? '') → ambil dari session, atau dari model, atau string kosong
---}}
-
 @props(['model' => null, 'action' => 'store'])
 
-<form action="{{ $model ? route("transactions.$action", $model) : route('transactions.store') }}" method="POST">
+<form action="{{ $model ? route("transactions.$action", $model) : route('transactions.store') }}" method="POST" class="space-y-4">
     @csrf
     @if($model)
         @method('PUT')
@@ -35,6 +29,7 @@
         name="amount" 
         type="number" 
         step="0.01"
+        placeholder="Masukkan nominal"
         value="{{ old('amount', $model->amount ?? '') }}"
     />
 
@@ -48,11 +43,14 @@
     <x-input 
         label="Catatan (opsional)" 
         name="note"
+        placeholder="Catatan tambahan"
         value="{{ old('note', $model->note ?? '') }}"
     />
 
-    <div class="flex gap-2">
-        <x-button type="submit" variant="solid">{{ $model ? 'Simpan Perubahan' : 'Tambah Transaksi' }}</x-button>
-        <x-button :href="route('transactions.index')">Batal</x-button>
+    <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 h-12 rounded-full bg-brand-indigo text-white font-bold border-flat shadow-flat hover:bg-opacity-90 active:translate-y-0.5 active:shadow-none transition-all">
+            {{ $model ? 'Simpan Perubahan' : 'Tambah Transaksi' }}
+        </button>
+        <a href="{{ route('transactions.index') }}" class="flex-1 h-12 rounded-full bg-white text-brand-ink font-bold border-flat hover:bg-neutral-50 active:translate-y-0.5 transition-all flex items-center justify-center">Batal</a>
     </div>
 </form>

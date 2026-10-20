@@ -31,7 +31,25 @@ class TransactionController extends Controller
 
         $selisih = $totalIncome - $totalExpense;
 
-        return view('transactions.index', compact('transactions', 'bulan', 'tahun', 'totalIncome', 'totalExpense', 'selisih'));
+        // Find nearest month with transactions if current month is empty
+        $nearestMonth = null;
+        if ($transactions->isEmpty()) {
+            $nearest = auth()->user()->transactions()
+                ->selectRaw('MONTH(transaction_date) as month, YEAR(transaction_date) as year, COUNT(*) as count')
+                ->groupBy('month', 'year')
+                ->orderByRaw('ABS(TIMESTAMPDIFF(MONTH, transaction_date, ?)) ASC', [now()->format('Y-m-01')])
+                ->first();
+            
+            if ($nearest) {
+                $nearestMonth = [
+                    'month' => $nearest->month,
+                    'year' => $nearest->year,
+                    'count' => $nearest->count
+                ];
+            }
+        }
+
+        return view('transactions.index', compact('transactions', 'bulan', 'tahun', 'totalIncome', 'totalExpense', 'selisih', 'nearestMonth'));
     }
 
     public function create()

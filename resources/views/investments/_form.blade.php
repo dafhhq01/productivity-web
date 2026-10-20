@@ -1,26 +1,40 @@
 <x-form-error />
 
-<div class="mb-4">
-    <label for="name" class="block text-sm font-medium mb-1">Nama Investasi</label>
-    <input type="text" name="name" id="name" value="{{ old('name', $investment->name ?? '') }}" class="border rounded-md px-3 py-2 w-full border-neutral-300" required>
-</div>
+<x-input 
+    label="Nama Investasi" 
+    name="name" 
+    placeholder="Nama investasi"
+    value="{{ old('name', $investment->name ?? '') }}"
+/>
 
-<div class="mb-4">
-    <label for="amount_invested" class="block text-sm font-medium mb-1">Modal Investasi</label>
-    <input type="number" name="amount_invested" id="amount_invested" step="0.01" min="0.01" value="{{ old('amount_invested', $investment->amount_invested ?? '') }}" class="border rounded-md px-3 py-2 w-full border-neutral-300" required>
-</div>
+<x-input 
+    label="Modal Investasi" 
+    name="amount_invested" 
+    type="number" 
+    step="0.01" 
+    placeholder="Jumlah modal"
+    value="{{ old('amount_invested', $investment->amount_invested ?? '') }}"
+/>
 
-<div class="mb-4">
-    <label for="annual_rate" class="block text-sm font-medium mb-1">Bunga Per Tahun (%)</label>
-    <input type="number" name="annual_rate" id="annual_rate" step="0.01" min="0" max="100" value="{{ old('annual_rate', $investment->annual_rate ?? '') }}" class="border rounded-md px-3 py-2 w-full border-neutral-300" required>
-</div>
+<x-input 
+    label="Bunga Per Tahun (%)" 
+    name="annual_rate" 
+    type="number" 
+    step="0.01" 
+    placeholder="Persentase bunga"
+    value="{{ old('annual_rate', $investment->annual_rate ?? '') }}"
+/>
 
-<div class="mb-4">
-    <label for="start_date" class="block text-sm font-medium mb-1">Tanggal Mulai</label>
-    <input type="date" name="start_date" id="start_date" value="{{ old('start_date', isset($investment) ? \Carbon\Carbon::parse($investment->start_date)->format('Y-m-d') : now()->format('Y-m-d')) }}" class="border rounded-md px-3 py-2 w-full border-neutral-300" required>
-</div>
+<x-input 
+    label="Tanggal Mulai" 
+    name="start_date" 
+    type="date"
+    value="{{ old('start_date', isset($investment) ? \Carbon\Carbon::parse($investment->start_date)->format('Y-m-d') : now()->format('Y-m-d')) }}"
+/>
 
-<div class="flex gap-3">
-    <x-button type="submit" variant="solid">{{ isset($investment) ? 'Simpan Perubahan' : 'Tambah Investasi' }}</x-button>
-    <x-button :href="route('investments.index')" variant="outline">Batal</x-button>
+<div class="flex gap-3 pt-4">
+    <button type="submit" class="flex-1 h-12 rounded-full bg-brand-indigo text-white font-bold border-flat shadow-flat hover:bg-opacity-90 active:translate-y-0.5 active:shadow-none transition-all">
+        {{ isset($investment) ? 'Simpan Perubahan' : 'Tambah Investasi' }}
+    </button>
+    <a href="{{ route('investments.index') }}" class="flex-1 h-12 rounded-full bg-white text-brand-ink font-bold border-flat hover:bg-neutral-50 active:translate-y-0.5 transition-all flex items-center justify-center">Batal</a>
 </div>
