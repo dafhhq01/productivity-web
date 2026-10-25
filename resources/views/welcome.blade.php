@@ -451,7 +451,7 @@
       </p>
       <div class="hero-cta">
         <a href="{{ route('login') }}" class="btn-solid">Buka Web App</a>
-        <a href="#" class="btn-outline">Unduh APK (Beta)</a>
+        <a href="https://github.com/dafhhq01/productivity-app/releases/download/mobile-v1.0.0/trackapp-v1.0-debug.apk" class="btn-outline">Unduh APK (Beta)</a>
       </div>
 
       <div class="trusted-by">
